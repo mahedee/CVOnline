@@ -1,48 +1,340 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <title>@ViewBag.Title - My ASP.NET MVC Application</title>
-        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-        <meta name="viewport" content="width=device-width" />
-        @Styles.Render("~/Content/css")
-        @Scripts.Render("~/bundles/modernizr")
-    </head>
-    <body>
-        <header>
-            <div class="content-wrapper">
-                <div class="float-left">
-                    <p class="site-title">@Html.ActionLink("your logo here", "Index", "Home")</p>
-                </div>
-                <div class="float-right">
-                    <section id="login">
-                        @Html.Partial("_LoginPartial")
-                    </section>
-                    <nav>
-                        <ul id="menu">
-                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                            <li>@Html.ActionLink("About", "About", "Home")</li>
-                            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                        </ul>
-                    </nav>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title </title>
+    @*@Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")*@
+    <link href="~/Scripts/bootstrap.min.css" rel="stylesheet" />
+    @*<script src="~/Scripts/jquery-2.1.0.js"></script>*@
+    <script src="~/Scripts/jquery-1.11.2.min.js"></script>
+    <script src="~/Scripts/jquery-ui.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/angular.min.js"></script>
+
+    <style type="text/css">
+        #navlist li {
+            display: inline;
+            list-style-type: none;
+            padding-right: 20px;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body style="margin-top:0px; padding-top:0px;">
+    <div class="container">
+        <div class="row" style="background-color:black;">
+            <div id="sitename" class="col-md-5">
+
+                <img id="siteimg" src="/Images/sitename.jpg" height="60" width="300" />
+            </div>
+            <div id="username" class="col-md-2">
+                @if (@User.Identity.IsAuthenticated == false)
+                {
+                    <label style="color:white; margin-top:4px; margin-bottom:0px; font-weight:normal; font-family:Arial;">Email: </label><br />
+                    <input type="text" id="txtEmail" style="border-style:solid; border-color:black; height:25px; margin-top:0px; width:180px;" placeholder="Enter your email" />
+                }
+
+            </div>
+            <div id="username" class="col-md-2">
+                @if (@User.Identity.IsAuthenticated == false)
+                {
+                    <label style="color:white; margin-top:4px; margin-bottom:0px; font-weight:normal; font-family:Arial;">Password: </label><br />
+                    <input type="password" id="txtPassword" style="border-style:solid; border-color:black; height:25px; margin-top:0px; width:180px;" placeholder="Enter Password" } />
+                }
+                else
+                {
+                    <label style="margin-top:15px; font-weight:bold; color:aquamarine;"> @TempData["FullName"]</label>
+                }
+
+            </div>
+            <div class="col-md-3" id="navcontainer" style="margin-top:25px; font-weight:bold; color:aquamarine;">
+                @if (@User.Identity.IsAuthenticated)
+                {
+                    @Session["name"]
+                    @Html.ActionLink("Log Out", "Logout", "Account", new { Area = "Security" }, new { @style = " padding-left:15px;" })
+                }
+                else
+                {
+                    <a href="#" id="btnLogin">Log In</a>
+
+                    @Html.ActionLink("Forget Password", "Register", "Account", new { Area = "Security" }, new { @style = " padding-left:15px;" })
+
+                }
+
+            </div>
+
+        </div>
+        <div class="row">
+            <div id="leftcolumn" class="col-md-3" style="background-color:lightgray;">
+
+                @if (@User.Identity.IsAuthenticated)
+                {
+                    <ul id="menu" style="width:250px; padding:0px; list-style:none;">
+                        <li> Home</li>
+                        <li> View Resume</li>
+                        <li> Edit Resume </li>
+                        <li> Upload Resume</li>
+                        <li> Delete Resume</li>
+                        <li> Change Password</li>
+                        <li> News &amp; event</li>
+                        <li> Sign Out</li>
+                    </ul>
+                }
+                else
+                {
+                    <h3 style="background-color:gray;"> Registration</h3>
+                    <form ng-app="myApp" ng-controller="validateCtrl" name="myForm" novalidate>
+
+                        <label style="margin-top:10px; margin-bottom:0px;">Name:</label><br />
+                        <input type="text" id="nameText" style="border-style: solid; border-color: blue; height: 40px; margin-top: 0px; width: 250px;" placeholder="Enter Your Name" class="form-control" name="name" ng-model="name" required />
+                        <span style="color:red" ng-show="myForm.name.$dirty && myForm.name.$invalid">
+                            <span ng-show="myForm.name.$error.required">Name is required.</span>
+                        </span><br />
+                        <label>Email:</label><br />
+                        <input type="email" id="emailText" name="email" style="border-style: solid; border-color: blue; height: 40px; margin-top: 0px; width: 250px;" placeholder="Enter Your Email" class="form-control" ng-model="email" required>
+                        <span style="color:red" ng-show="myForm.email.$dirty && myForm.email.$invalid">
+                            <span ng-show="myForm.email.$error.required">Required</span>
+                            <span ng-show="myForm.email.$error.email">Invalid </span>
+                        </span>
+                        <br />
+
+                        <label style="margin-top:10px; margin-bottom:0px;">Password:</label><br />
+                        <input type="password" id="passwordText" style="border-style: solid; border-color: blue; height: 40px; margin-top: 0px; width: 250px;" placeholder="Enter Password" class="form-control" name="password" ng-model="password" required />
+                        <span style="color:red" ng-show="myForm.password.$dirty && myForm.password.$invalid">
+                            <span ng-show="myForm.password.$error.required">Required.</span>
+                        </span>
+                        <br />
+
+                        <label style="margin-top:10px; margin-bottom:0px;">Confirm Password:</label><br />
+                        <input type="password" id="confirmPasswordText" style="border-style: solid; border-color:blue; height: 40px; margin-top: 0px; width: 250px;" placeholder="Enter Confirm Password" class="form-control" name="cpassword" ng-model="cpassword" required />
+                        <span style="color:red" ng-show="myForm.cpassword.$dirty && myForm.cpassword.$invalid">
+                            <span ng-show="myForm.cpassword.$error.required">Required</span>
+                        </span>
+                        <span style="color:red" ng-show="myForm.cpassword.$dirty && myForm.cpassword.$error.noMatch && myForm.cpassword.$invalid">
+                            Password Mismatch
+                        </span>
+                        <br />
+                        <input type="submit" id="btnSubmit" value="Submit" ng-disabled="!myForm.$valid" style="width:80px; background-color:blue; color:aquamarine; height:30px; font-weight:bold;margin-top:10px;">
+
+                    </form>
+                }
+            </div>
+            <div class="col-md-9">
+                <div class="row">
+                    <div>
+                        @if (@User.Identity.IsAuthenticated)
+                        {
+                            <ul id="tab" class="nav nav-tabs">
+                                <li class="active"><a href="#" class="btn btn-info">Home</a></li>
+                                <li class="btn btn-info">@Html.ActionLink("Personal", "PersonalInfo", "Resume", new { Area = "UserInfo" }, null)</li>
+                                <li><a href="#" class="btn btn-info">Education</a></li>
+                                <li><a href="#" class="btn btn-info">Skills</a></li>
+                                <li><a href="#" class="btn btn-info">Training</a></li>
+                                <li><a href="#" class="btn btn-info">Experience</a></li>
+                                <li><a href="#" class="btn btn-info">Photograph</a></li>
+                                <li><a href="#" class="btn btn-info">References</a></li>
+
+                            </ul>
+                        }
+                    </div>
+                    <div id="result">
+                        @RenderBody()
+
+
+                    </div>
                 </div>
             </div>
-        </header>
-        <div id="body">
-            @RenderSection("featured", required: false)
-            <section class="content-wrapper main-content clear-fix">
-                @RenderBody()
-            </section>
         </div>
         <footer>
-            <div class="content-wrapper">
-                <div class="float-left">
-                    <p>&copy; @DateTime.Now.Year - My ASP.NET MVC Application</p>
-                </div>
-            </div>
+            <hr />
+            <p>&copy; @DateTime.Now.Year - Rofiqul Islam</p>
         </footer>
+    </div>
 
-        @Scripts.Render("~/bundles/jquery")
-        @RenderSection("scripts", required: false)
-    </body>
+    @Scripts.Render("~/bundles/jquery")
+    @*@Scripts.Render("~/bundles/bootstrap")*@
+    @RenderSection("scripts", required: false)
+    @*<script src="~/Scripts/jquery-1.10.2.js"></script>*@
+    <style type="text/css">
+        #menu li {
+            background-color: blue;
+            font-weight: bold;
+            border: solid 1px;
+            border-color: black;
+            height: 30px;
+            margin-top: 5px;
+            color: white;
+            text-align: center;
+            padding-top: 5px;
+            cursor: pointer;
+        }
+    </style>
+    <script src="~/Scripts/angular.min.js"></script>
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+            $("#tab").click(function () {
+                if (!$(this).hasClass('active')) {
+                    $("#tab.active").removeClass("active");
+                    $(this).addClass("active");
+                }
+            });
+        });
+
+
+        $(document).ready(function () {
+            $window_height = $(window).height();
+
+            $("#leftcolumn").css('height', $window_height - 80);
+            $("#btnLogin").click(function () {
+                
+                var dataObject = {
+                    UserName: $("#txtEmail").val(),
+                    Password: $("#txtPassword").val()
+                };
+                $.ajax({
+                    url: "@Url.Action("Login", "Account")",
+                    type: "POST",
+                data: dataObject,
+                dataType: "json",
+                success: function (returndata) {
+
+                    if (returndata.ok) {
+                        window.location = returndata.newurl;
+                    }
+                    else {
+                        alert(returndata.message);
+                    }
+                },
+                error: function () {
+                    $("#content").html("<div class='failed'>Error! Please try again</div>");
+                }
+            });
+            });
+
+            $("#btnSubmit").click(function () {
+                var dataObject = {
+                    Name: $("#nameText").val(),
+                    Email: $("#emailText").val(),
+                    Password: $("#passwordText").val(),
+                    ConfirmPassword: $("#confirmPasswordText").val()
+                };
+                $.ajax({
+                    url: '@Url.Action("Register", "Account")',
+                    type: "POST",
+                    data: dataObject,
+                    dataType: "json",
+                    success: function (data) {
+                        window.location = "@Url.Content("~/Home/About")";
+
+                        if (data.toString() == "Successfully Saved!") {
+                            $("#UserName").val('');
+                            
+                        }
+                        else {
+
+                        }
+                    },
+                    error: function () {
+                        $("#content").html("<div class='failed'>Error! Please try again</div>");
+                    }
+                });
+            });
+
+            $("#menu").sortable({ containment: "document", cursor: "pointer", revert: true, opacity: 0.60 });//{ containment: document, tolerance: 'pointer', cursor:'pointer', revert:true, opacity: 0.60 });
+        });
+
+        $(document).ready(function () {
+            $window_height = $(window).height();
+
+            $("#leftcolumn").css('height', $window_height - 80);
+        });
+
+        $(document).ready(function () {
+            $("#btnLogin").click(function () {
+                
+                var dataObject = {
+                    UserName: $("#txtEmail").val(),
+                    Password: $("#txtPassword").val()
+                };
+                $.ajax({
+                    url: "@Url.Action("Login", "Account")",
+                    type: "POST",
+                    data: dataObject,
+                    dataType: "json",
+                    success: function (data) {
+
+                        if (data.toString() == "Successfully Saved!") {
+                            $("#txtEmail").val('');
+                            $("#txtPassword").val('');
+                        }
+                        else {
+                            $("#content").html("<div class='failed'>" + data + "</div>");
+                        }
+                    },
+                    error: function () {
+                        $("#content").html("<div class='failed'>Error! Please try again</div>");
+                    }
+                });
+            });
+        });
+
+        $(document).ready(function () {
+            $("#btnSubmit").click(function () {
+                var dataObject = {
+                    Name: $("#nameText").val(),
+                    Email: $("#emailText").val(),
+                    Password: $("#passwordText").val(),
+                    ConfirmPassword: $("#confirmPasswordText").val()
+                };
+                $.ajax({
+                    url: '@Url.Action("Register", "Account")',
+                    type: "POST",
+                    data: dataObject,
+                    dataType: "json",
+                    success: function (data) {
+                        window.location = "@Url.Content("~/MemberZone/Member/Index")";
+
+                        if (data.toString() == "Successfully Saved!") {
+                            $("#UserName").val('');
+                            $("#UserContact").val('');
+                            $("#content").html("<div class='success'>" + data + "</div>");
+                        }
+                        else {
+                            $("#content").html("<div class='failed'>" + data + "</div>");
+                        }
+                    },
+                    error: function () {
+                        $("#content").html("<div class='failed'>Error! Please try again</div>");
+                    }
+                });
+            });
+        });
+
+        var app = angular.module('myApp', ['UserValidation']);
+
+        angular.module('UserValidation', []).directive('validPasswordC', function () {
+            return {
+                require: 'ngModel',
+                link: function (scope, elm, attrs, ctrl) {
+                    ctrl.$parsers.unshift(function (viewValue, $scope) {
+                        var noMatch = viewValue != scope.myForm.password.$viewValue
+                        ctrl.$setValidity('noMatch', !noMatch)
+                    })
+                }
+            }
+        })
+
+        var app = angular.module('myApp', []);
+        app.controller('validateCtrl', function ($scope) {
+            $scope.email = '';
+            //alert("adasfs");
+        });
+
+    </script>
+</body>
 </html>

@@ -12,5 +12,6 @@ namespace OnlineCV.Models
         [MaxLength(100)]
         public string Name { get; set; }
         public Int32 SortOrder { get; set; }
+        public ICollection<UserSkill> UserSkills { get; set; }
     }
 }
