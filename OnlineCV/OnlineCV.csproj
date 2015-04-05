@@ -188,6 +188,23 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\Certification.cs" />
+    <Compile Include="Models\Degree.cs" />
+    <Compile Include="Models\Education.cs" />
+    <Compile Include="Models\Experience.cs" />
+    <Compile Include="Models\ExtracurricularActivity.cs" />
+    <Compile Include="Models\PersonalInformation.cs" />
+    <Compile Include="Models\Photograph.cs" />
+    <Compile Include="Models\ProfessionalQualification.cs" />
+    <Compile Include="Models\ProjectWork.cs" />
+    <Compile Include="Models\Reference.cs" />
+    <Compile Include="Models\Role.cs" />
+    <Compile Include="Models\Skill.cs" />
+    <Compile Include="Models\Training.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\UserRole.cs" />
+    <Compile Include="Models\UserSkill.cs" />
+    <Compile Include="Models\VendorCertification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
