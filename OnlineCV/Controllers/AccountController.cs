@@ -79,7 +79,6 @@ namespace OnlineCV.Controllers
                 Session["name"] = user.Name;
                 System.Web.Security.FormsAuthentication.SetAuthCookie(userData.Email, false);
                 return Json(Url.Action("About", "Home",null));
-                //return RedirectToAction("Index", "Member", new { area = "MemberZone" });
             }
             else
             {
