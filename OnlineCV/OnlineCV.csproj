@@ -186,6 +186,7 @@
     <Compile Include="Controllers\EducationController.cs" />
     <Compile Include="Controllers\ExperienceController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HtmlToPdf.cs" />
     <Compile Include="Controllers\PhotographController.cs" />
     <Compile Include="Controllers\ResumeController.cs" />
     <Compile Include="Controllers\ResumeViewController.cs" />
