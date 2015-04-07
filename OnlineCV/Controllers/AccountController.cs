@@ -78,7 +78,8 @@ namespace OnlineCV.Controllers
                 Session.Remove("name");
                 Session["name"] = user.Name;
                 System.Web.Security.FormsAuthentication.SetAuthCookie(userData.Email, false);
-                return Json(Url.Action("About", "Home",null));
+               // return Json(Url.Action("About", "Home",null));
+                return Json(new { ok = true, newurl = Url.Action("About", "Home", null) });
             }
             else
             {

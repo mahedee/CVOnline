@@ -304,12 +304,9 @@
                     data: dataObject,
                     dataType: "json",
                     success: function (data) {
-                        window.location = "@Url.Content("~/MemberZone/Member/Index")";
-
-                        if (data.toString() == "Successfully Saved!") {
-                            $("#UserName").val('');
-                            $("#UserContact").val('');
-                            $("#content").html("<div class='success'>" + data + "</div>");
+                        if (data.ok) {
+                            window.location = data.newurl;
+                            @*"@Url.Content("~/Home/About")";*@
                         }
                         else {
                             $("#content").html("<div class='failed'>" + data + "</div>");

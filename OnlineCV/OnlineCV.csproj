@@ -304,6 +304,8 @@
     <Content Include="Images\3.JPG" />
     <Content Include="Images\4.JPG" />
     <Content Include="Images\dream4.jpg" />
+    <Content Include="Images\pdf.jpg" />
+    <Content Include="Images\pdficon.jpg" />
     <Content Include="Images\sample.png" />
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js" />
