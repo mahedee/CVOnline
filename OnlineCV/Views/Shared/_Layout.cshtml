@@ -8,8 +8,7 @@
     @*@Styles.Render("~/Content/css")
         @Scripts.Render("~/bundles/modernizr")*@
     <link href="~/Scripts/bootstrap.min.css" rel="stylesheet" />
-    @*<script src="~/Scripts/jquery-2.1.0.js"></script>*@
-    <script src="~/Scripts/jquery-1.11.2.min.js"></script>
+    <script src="~/Scripts/jquery-2.1.0.js"></script>
     <script src="~/Scripts/jquery-ui.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="~/Scripts/angular.min.js"></script>
@@ -33,16 +32,16 @@
             <div id="username" class="col-md-2">
                 @if (@User.Identity.IsAuthenticated == false)
                 {
-                    <label style="color:white; margin-top:4px; margin-bottom:0px; font-weight:normal; font-family:Arial;">Email: </label><br />
-                    <input type="text" id="txtEmail" style="border-style:solid; border-color:black; height:25px; margin-top:0px; width:180px;" placeholder="Enter your email" />
+                    <label id="failmessage" style="color:white; margin-top:4px; margin-bottom:0px; font-weight:normal; font-family:Arial;"> </label><br />
+    <input type="text" id="txtEmail" onkeyup="RemoveMessage();" style="border-style:solid; border-color:black; height:25px; margin-top:0px; width:180px;" placeholder="Enter your email" />
                 }
 
             </div>
             <div id="username" class="col-md-2">
-                @if (@User.Identity.IsAuthenticated == false)
+                                @if (@User.Identity.IsAuthenticated == false)
                 {
-                    <label style="color:white; margin-top:4px; margin-bottom:0px; font-weight:normal; font-family:Arial;">Password: </label><br />
-                    <input type="password" id="txtPassword" style="border-style:solid; border-color:black; height:25px; margin-top:0px; width:180px;" placeholder="Enter Password" } />
+                    <label id="failpassword" style="color:white; margin-top:4px; margin-bottom:0px; font-weight:normal; font-family:Arial;"> </label><br />
+                    <input type="password" id="txtPassword" onkeyup="RemoveMessage();" style="border-style:solid; border-color:black; height:25px; margin-top:0px; width:180px;" placeholder="Enter Password"  />
                 }
                 else
                 {
@@ -54,7 +53,7 @@
                 @if (@User.Identity.IsAuthenticated)
                 {
                     @Session["name"]
-                    @Html.ActionLink("Log Out", "Logout", "Account", new { Area = "Security" }, new { @style = " padding-left:15px;" })
+                    @Html.ActionLink("Log Out", "Logout", "Account",null, new { @style = " padding-left:15px;" })
                 }
                 else
                 {
@@ -74,7 +73,7 @@
                 {
                     <ul id="menu" style="width:250px; padding:0px; list-style:none;">
                         <li> Home</li>
-                        <li> View Resume</li>
+                        <li>@Html.ActionLink("View CV", "Index", "ResumeView")</li>
                         <li> Edit Resume </li>
                         <li> Upload Resume</li>
                         <li> Delete Resume</li>
@@ -129,13 +128,14 @@
                         {
                             <ul id="tab" class="nav nav-tabs">
                                 <li class="active"><a href="#" class="btn btn-info">Home</a></li>
-                                <li class="btn btn-info">@Html.ActionLink("Personal", "PersonalInfo", "Resume", new { Area = "UserInfo" }, null)</li>
-                                <li><a href="#" class="btn btn-info">Education</a></li>
-                                <li><a href="#" class="btn btn-info">Skills</a></li>
-                                <li><a href="#" class="btn btn-info">Training</a></li>
-                                <li><a href="#" class="btn btn-info">Experience</a></li>
-                                <li><a href="#" class="btn btn-info">Photograph</a></li>
-                                <li><a href="#" class="btn btn-info">References</a></li>
+                                <li>@Html.ActionLink("Personal", "Personal", "Resume")</li>
+                                <li>@Html.ActionLink("Education", "ViewEducation", "Education")</li>
+                                <li>@Html.ActionLink("Experience", "Index", "Experience")</li>
+                                <li>@Html.ActionLink("Training", "Training", "Resume")</li>
+                                <li>@Html.ActionLink("Skill", "Skill", "Resume")</li>
+                                <li>@Html.ActionLink("Certification", "Certification", "Resume")</li>
+                                <li>@Html.ActionLink("Project", "Project", "Resume")</li>
+                                <li>@Html.ActionLink("Photograph", "Upload", "Photograph")</li>
 
                             </ul>
                         }
@@ -187,6 +187,8 @@
 
 
         $(document).ready(function () {
+            
+
             $window_height = $(window).height();
 
             $("#leftcolumn").css('height', $window_height - 80);
@@ -207,7 +209,8 @@
                         window.location = returndata.newurl;
                     }
                     else {
-                        alert(returndata.message);
+                        $("#failmessage").html(returndata.message).css("color", "red").css("font-size", "9");
+                        $("#failpassword").html('invalid').css("color", "black").css("font-size", "9");
                     }
                 },
                 error: function () {
@@ -244,7 +247,7 @@
                     }
                 });
             });
-
+            
             $("#menu").sortable({ containment: "document", cursor: "pointer", revert: true, opacity: 0.60 });//{ containment: document, tolerance: 'pointer', cursor:'pointer', revert:true, opacity: 0.60 });
         });
 
@@ -282,6 +285,10 @@
                 });
             });
         });
+        function RemoveMessage() {
+            $("#failmessage").html('').css("color", "white");
+            $("#failpassword").html('').css("color", "white");
+        }
 
         $(document).ready(function () {
             $("#btnSubmit").click(function () {

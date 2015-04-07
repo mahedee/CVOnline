@@ -1,0 +1,182 @@
+﻿@model OnlineCV.Models.User
+@{
+    ViewBag.Title = "Index";
+}
+
+<p>
+    @ViewBag.Information
+</p>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-5">
+            <h2>@Model.Name</h2>
+            <h5>
+                @Model.PersonalInfo.FirstOrDefault().PresentAddress <br />
+                Mobilr: @Model.PersonalInfo.FirstOrDefault().PersonalContact <br />
+                Email: @Model.Email
+            </h5>
+        </div>
+        
+        <div class="col-md-4">
+            @if ((OnlineCV.Models.Photograph)@ViewBag.Photo != null)
+            {
+                <img src="data:image/png;base64,@Convert.ToBase64String(((OnlineCV.Models.Photograph)@ViewBag.Photo).ImageData, 0, ((OnlineCV.Models.Photograph)@ViewBag.Photo).ImageData.Length)" height="100" width="100" />
+            }
+            else
+            {
+                <img src="~/Images/sample.png" height="100" width="100" />
+            } 
+        </div>
+        <div class="col-md-3"></div>
+     </div>
+</div>
+
+    <h4><u>Educational Qualification</u></h4>
+    @foreach (var item in Model.Educations)
+    {
+
+        <hr />
+        <table style="font-weight:bold;" cellpadding="16" cellspacing="20">
+            <tr>
+                <td>
+                    Degree
+                </td>
+                <td>:</td>
+                <td>
+                    @item.Degree.Name
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Passing year</td>
+                <td>:</td>
+                <td>@item.PassingYear</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Result</td>
+                <td>:</td>
+                <td>@item.Result.Name</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Institution</td>
+                <td>:</td>
+                <td>@item.Institution</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Board/University</td>
+                <td>:</td>
+                <td>@item.BoardUniversity</td>
+                <td></td>
+            </tr>
+        </table>
+    }
+
+<h4><u>Experience</u></h4>
+@foreach (var item in Model.Experiences)
+{
+    <hr />
+    <table style="font-weight:bold;" cellpadding="16" cellspacing="20">
+        <tr>
+            <td>
+                Designation
+            </td>
+            <td>:</td>
+            <td>
+                @item.Designation
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Department</td>
+            <td>:</td>
+            <td>@item.Department</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Employer</td>
+            <td>:</td>
+            <td>@item.Employer</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Start Date</td>
+            <td>:</td>
+            <td>@item.StartDate</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>End Date</td>
+            <td>:</td>
+            <td>@item.EndDate</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Responsibility</td>
+            <td>:</td>
+            <td>@item.Responsibility</td>
+            <td></td>
+        </tr>
+    </table>
+}
+
+<h4><u>Personal Information</u></h4>
+
+    <table style="font-weight:bold;" cellpadding="16" cellspacing="20">
+        <tr>
+            <td>
+                Father Name
+            </td>
+            <td>:</td>
+            <td>
+                @Model.PersonalInfo.FirstOrDefault().FatherName
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Mother Name</td>
+            <td>:</td>
+            <td>@Model.PersonalInfo.FirstOrDefault().MotherName</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Date of Birth</td>
+            <td>:</td>
+            <td>@Model.PersonalInfo.FirstOrDefault().DateOfBirth</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Home Contact</td>
+            <td>:</td>
+            <td>@Model.PersonalInfo.FirstOrDefault().HomeContact</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Nationality</td>
+            <td>:</td>
+            <td>@Model.PersonalInfo.FirstOrDefault().Nationality</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Present Address</td>
+            <td>:</td>
+            <td>@Model.PersonalInfo.FirstOrDefault().PresentAddress</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Permanent Address</td>
+            <td>:</td>
+            <td>@Model.PersonalInfo.FirstOrDefault().PermanentAddress</td>
+            <td></td>
+        </tr>
+        
+    </table>
+
+    <style type="text/css">
+        table td {
+            PADDING: 8px;
+        }
+    </style>

@@ -38,13 +38,13 @@ namespace OnlineCV.Controllers
                 }
                 else
                 {
-                    return Json(new { ok = false, message = "Invalid Credential" });
+                    return Json(new { ok = false, message = "Invalid Credentials" });
                     //return View(loginData);ok = false, message = ex.Message
                 }
             }
             else
             {
-                return Json(new { ok = false, message = "Invalid Credential" });
+                return Json(new { ok = false, message = "  Enter your Credentials" });
                 //return View(loginData);
             }
         }

@@ -77,10 +77,13 @@ namespace OnlineCV.Migrations
                         Institution = c.String(),
                         BoardUniversity = c.String(),
                         UserId = c.Int(nullable: false),
+                        Degree_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Degrees", t => t.Degree_Id)
                 .ForeignKey("dbo.Degrees", t => t.DegreeId, cascadeDelete: true)
                 .ForeignKey("dbo.Users", t => t.UserId, cascadeDelete: true)
+                .Index(t => t.Degree_Id)
                 .Index(t => t.DegreeId)
                 .Index(t => t.UserId);
             
@@ -91,8 +94,23 @@ namespace OnlineCV.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         Name = c.String(),
                         SortOrder = c.Int(nullable: false),
+                        Education_Id = c.Int(),
                     })
-                .PrimaryKey(t => t.Id);
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Educations", t => t.Education_Id)
+                .Index(t => t.Education_Id);
+            
+            CreateTable(
+                "dbo.Results",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Name = c.String(nullable: false, maxLength: 100),
+                        Education_Id = c.Int(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Educations", t => t.Education_Id)
+                .Index(t => t.Education_Id);
             
             CreateTable(
                 "dbo.Experiences",
@@ -250,8 +268,11 @@ namespace OnlineCV.Migrations
             DropIndex("dbo.ProfessionalQualifications", new[] { "UserId" });
             DropIndex("dbo.Trainings", new[] { "UserId" });
             DropIndex("dbo.Experiences", new[] { "UserId" });
+            DropIndex("dbo.Results", new[] { "Education_Id" });
+            DropIndex("dbo.Degrees", new[] { "Education_Id" });
             DropIndex("dbo.Educations", new[] { "UserId" });
             DropIndex("dbo.Educations", new[] { "DegreeId" });
+            DropIndex("dbo.Educations", new[] { "Degree_Id" });
             DropIndex("dbo.PersonalInformations", new[] { "UserId" });
             DropIndex("dbo.UserRoles", new[] { "RoleId" });
             DropIndex("dbo.UserRoles", new[] { "UserId" });
@@ -265,8 +286,11 @@ namespace OnlineCV.Migrations
             DropForeignKey("dbo.ProfessionalQualifications", "UserId", "dbo.Users");
             DropForeignKey("dbo.Trainings", "UserId", "dbo.Users");
             DropForeignKey("dbo.Experiences", "UserId", "dbo.Users");
+            DropForeignKey("dbo.Results", "Education_Id", "dbo.Educations");
+            DropForeignKey("dbo.Degrees", "Education_Id", "dbo.Educations");
             DropForeignKey("dbo.Educations", "UserId", "dbo.Users");
             DropForeignKey("dbo.Educations", "DegreeId", "dbo.Degrees");
+            DropForeignKey("dbo.Educations", "Degree_Id", "dbo.Degrees");
             DropForeignKey("dbo.PersonalInformations", "UserId", "dbo.Users");
             DropForeignKey("dbo.UserRoles", "RoleId", "dbo.Roles");
             DropForeignKey("dbo.UserRoles", "UserId", "dbo.Users");
@@ -280,6 +304,7 @@ namespace OnlineCV.Migrations
             DropTable("dbo.ProfessionalQualifications");
             DropTable("dbo.Trainings");
             DropTable("dbo.Experiences");
+            DropTable("dbo.Results");
             DropTable("dbo.Degrees");
             DropTable("dbo.Educations");
             DropTable("dbo.PersonalInformations");

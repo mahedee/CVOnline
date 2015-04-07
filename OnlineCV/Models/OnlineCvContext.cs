@@ -17,6 +17,7 @@ namespace OnlineCV.Models
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<PersonalInformation> PersonalInformations { get; set; }
         public DbSet<Degree> Degrees { get; set; }
+        public DbSet<Result> Results { get; set; }
         public DbSet<Education> Educations { get; set; }
         public DbSet<Experience> Experiences { get; set; }
         public DbSet<Skill> Skills { get; set; }
@@ -27,5 +28,6 @@ namespace OnlineCV.Models
         public DbSet<Reference> References { get; set; }
         public DbSet<ProjectWork> ProjectWorks { get; set; }
         public DbSet<ExtraWork> ExtraWorks { get; set; }
+        public DbSet<Photograph> Photographs { get; set; }
     }
 }
