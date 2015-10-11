@@ -341,6 +341,10 @@
     <Content Include="Scripts\angular-sanitize.min.js.map" />
     <Content Include="Scripts\angular-touch.min.js.map" />
     <Content Include="Scripts\errors.json" />
+    <Content Include="Documents\Database Diagram.docx" />
+    <Content Include="Documents\Team Information.docx" />
+    <Content Include="Documents\User Story.docx" />
+    <Content Include="Documents\Wireframe Diagram.docx" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.min.css" />
     <Content Include="Scripts\bootstrap.min.js" />
